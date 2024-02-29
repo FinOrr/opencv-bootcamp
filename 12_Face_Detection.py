@@ -73,7 +73,17 @@ while cv2.waitKey(1) != 27:
             x_right_top = int(detections[0, 0, i, 5] * frame_width)
             y_right_top = int(detections[0, 0, i, 6] * frame_height)
 
-            cv2.rectangle(frame, (x_left_bottom, y_left_bottom), (x_right_top, y_right_top), (0, 255, 0))
+            # Calculate the centre and radius of the bounding circle
+            centre_x = (x_left_bottom + x_right_top) // 2
+            centre_y = (y_left_bottom + y_right_top) // 2
+            radius = max((x_right_top - x_left_bottom) // 2, (y_right_top - y_left_bottom) // 2)
+
+            # Draw the circle
+            cv2.circle(frame, (centre_x, centre_y), radius, (0, 255, 0), 2)
+
+
+
+            # cv2.rectangle(frame, (x_left_bottom, y_left_bottom), (x_right_top, y_right_top), (0, 255, 0))
             label = "Confidence: %.4f" % confidence
             label_size, base_line = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
 
